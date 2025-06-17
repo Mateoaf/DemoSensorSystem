@@ -22,6 +22,10 @@ int main(){
     gestor.agregarSensor(new SensorGPS("GPS B"));
 
     cout << "Iniciando el sistema de captura y gestion de datos de Sensores" << endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    gestor.setNewDataCallback(InterfazGrafica::displaySensorData);
+    gestor.setSensorCalibratedCallback(InterfazGrafica::displayCalibratedSensor);
     int opcion;
 
     do {
@@ -36,9 +40,11 @@ int main(){
         switch (opcion) {
             case 1: 
                 gestor.leerTodosLosSensores();
+                InterfazGrafica::pausarYContinuar();
                 break;
             case 2:
                 gestor.calibrarTodosLosSensores();
+                InterfazGrafica::pausarYContinuar();
                 break;
             case 3: 
                 cout << "Saliendo del sistema..." << endl;

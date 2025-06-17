@@ -3,6 +3,7 @@
 #ifndef SENSOR_GPS_H
 #define SENSOR_GPS_H
 #include "sensor.h"
+#include "sensorData.h"
 #include <random>
 #include <chrono>
 #include <utility> 
@@ -17,8 +18,8 @@ class SensorGPS : public Sensor {
         mutable uniform_real_distribution<double> longitudDistribucion;
     public:
         SensorGPS(const string& _id);
-        double leerDato() const override;
-        pair<double, double> obtenerCoordenadas() const;
+        SensorData leerDato() const override;
+        
 };
 
 #endif

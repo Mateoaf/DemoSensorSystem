@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include "sensor.h"
+#include "sensorData.h"
 #include <chrono>
 
 using namespace std;
@@ -19,7 +20,7 @@ class SensorTemperatura : public Sensor {
     public:
         SensorTemperatura(const string& _id);
 
-        double leerDato() const override;
+        SensorData leerDato() const override;
 };
 
 #endif

@@ -19,22 +19,39 @@ void GestorSensores::agregarSensor(Sensor* sensor) {
 
 }
 
+void GestorSensores::setNewDataCallback(SensorDataCallback callback) {
+    newDataCallback = callback;
+}
+
+void GestorSensores::setSensorCalibratedCallback(SensorCalibratedCallback callback) {
+    sensorCalibratedCallback = callback;
+}
+
 void GestorSensores::leerTodosLosSensores() {
     cout << "Leyendo datos de todos los sensores " << endl;
     for (Sensor* s : sensores) {
-        if (s -> tipo == "GPS") {
-            SensorGPS* gps = static_cast<SensorGPS*>(s);
-            pair<double, double> coords = gps->obtenerCoordenadas();
-            cout << "[" << s->tipo << " " << s->id << "] Coordenadas: Latitud " << coords.first << ", Longitud " << coords.second << endl;
-        } else {
-            cout << "[" << s->tipo << " " << s->id << "] Dato: " << s->leerDato() << endl;
+         SensorData data = s->leerDato();
+        dataHistory.push_back(data);
+
+        // Notificar a la UI (o cualquier suscriptor)
+        if (newDataCallback) {
+            newDataCallback(data);
         }
     }
-}
+    std::cout << "Lectura terminada" << std::endl;
+    }
+
 
 void GestorSensores::calibrarTodosLosSensores() {
     cout << "Calibrando todos los sensores " << endl;
     for (Sensor* s: sensores) {
-        s->calibrar();
+        if (sensorCalibratedCallback) {
+            sensorCalibratedCallback(s->id); // El gestor notifica cuando un sensor ha terminado de calibrarse
+        }
     }
+    cout << "Calibracion de todos los sensores completada." << endl;
+}
+
+const vector<SensorData>& GestorSensores::getDataHistory() const {
+    return dataHistory;
 }

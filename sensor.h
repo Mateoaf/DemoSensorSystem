@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "sensorData.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class Sensor {
     
         
         // Obligan a las clases derivadas a implementar el método leerDato y Calibrar
-        virtual double leerDato() const = 0;
+        virtual SensorData leerDato() const = 0;
         virtual void calibrar();
 
 };
